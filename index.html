@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Авторські торти та кава в Монастирищі — Cafe Park Avenue | Лабораторна робота №7</title>
+    <meta name="description" content="Крафтові десерти, торти на замовлення та кава в м. Монастирище (вул. Соборна, 132) від Cafe Park Avenue. Свіжа випічка щодня з 07:30 до 22:00! Відеопрезентація, інтерактивна карта Google Maps та живі інформери.">
+
+    <!-- Шрифти: Cormorant Garamond (Headings) та Plus Jakarta Sans (Body/UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN  -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-forest': '#054a29',
+                        'brand-forest-dark': '#03331c',
+                        'brand-forest-light': '#0a6338',
+                        'brand-sage': '#8cba80',
+                        'brand-sage-light': '#c8e2c2',
+                        'brand-espresso': '#412722',
+                        'brand-espresso-muted': '#6e5853',
+                        'brand-terracotta': '#d8a47f',
+                        'brand-hero': '#FAF9F4',
+                        'brand-cream': '#F5F3EB',
+                        'brand-warm': '#FDFCF7',
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'soft': '0 8px 30px rgba(65, 39, 34, 0.06)',
+                        'card': '0 12px 35px rgba(65, 39, 34, 0.12)',
+                        'hover': '0 16px 40px rgba(5, 74, 41, 0.16)',
+                    },
+                    borderRadius: {
+                        'card': '18px',
+                        'pill': '9999px',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Користувацькі стилі: специфічні брендові анімації, :checked стани конструктора та позиціонування фото hero (Етап 3, 14 методички) -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-sans text-brand-espresso bg-brand-hero antialiased flex flex-col min-h-screen">
+
+    <!-- ========================================================
+         ШАПКА САЙТУ (HEADER)
+         Семантичний компонент шапки згідно з Етапом 6 та 13 методички
+         Адаптивність Mobile-First: логотип зліва, бургер на мобільному, flex-меню на md+
+         ======================================================== -->
+    <header id="top" class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#e8e0d5] shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Зона логотипа ліворуч -->
+            <div class="flex items-center">
+                <a href="#top" class="flex items-center gap-3 group" aria-label="Cafe Park Avenue — на головну">
+                    <img src="assets/images/logo-mark.png" alt="Логотип Cafe Park Avenue" class="w-11 h-11 object-contain transition-transform duration-300 group-hover:rotate-6">
+                    <span class="font-serif text-2xl font-bold text-brand-forest tracking-wide">Cafe Park Avenue</span>
+                </a>
+            </div>
+
+            <!-- Чистий CSS-перемикач для бургер-меню (без обов'язкового JS) -->
+            <input type="checkbox" id="burger-toggle" class="burger-checkbox hidden" aria-hidden="true">
+
+            <!-- Кнопка-гамбургер для мобільних екранів (block md:hidden) -->
+            <label for="burger-toggle" class="burger-btn flex md:hidden flex-col justify-between w-7 h-5 cursor-pointer z-50 p-0 bg-transparent border-none">
+                <span class="sr-only">Відкрити меню навігації</span>
+                <span class="burger-line block w-full h-[3px] bg-brand-forest rounded-sm transition-all duration-300"></span>
+                <span class="burger-line block w-full h-[3px] bg-brand-forest rounded-sm transition-all duration-300"></span>
+                <span class="burger-line block w-full h-[3px] bg-brand-forest rounded-sm transition-all duration-300"></span>
+            </label>
+
+            <!-- Семантична панель навігації: на мобільному висувна панель, на десктопі (md+) горизонтальний ряд -->
+            <nav class="navigation-wrapper" aria-label="Основна навігація">
+                <ul class="flex flex-col md:flex-row items-center gap-6 md:gap-7 list-none m-0 p-0">
+                    <li><a href="#menu" title="Перейти до каталогу десертів" class="text-base font-semibold text-brand-espresso hover:text-brand-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1">Меню десертів</a></li>
+                    <li><a href="#promo-video" title="Переглянути відеопрезентацію кондитерської" class="text-base font-semibold text-brand-espresso hover:text-brand-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1">Відео</a></li>
+                    <li><a href="#cake-builder" title="Сконструювати власний святковий торт" class="text-base font-bold text-brand-forest hover:text-brand-forest-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1 border-b-2 border-brand-forest">Конструктор торта</a></li>
+                    <li><a href="#about" title="Дізнатися більше про кондитерську" class="text-base font-semibold text-brand-espresso hover:text-brand-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1">Про нас</a></li>
+                    <li><a href="#contacts" title="Переглянути карту проїзду та контакти" class="text-base font-semibold text-brand-espresso hover:text-brand-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1">Контакти</a></li>
+                </ul>
+
+                <!-- Мобільна кнопка взаємодії (відображається лише всередині висувного мобільного меню) -->
+                <div class="mobile-menu-action w-full max-w-xs md:hidden mt-2">
+                    <a href="#cake-builder" title="Перейти до оформлення замовлення торта" class="w-full inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 rounded-full bg-brand-forest text-white font-semibold shadow-md hover:bg-brand-forest-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest focus-visible:ring-offset-2 transition-all">
+                        Замовити торт
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Десктопна CTA-кнопка праворуч (hidden md:inline-flex) -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#cake-builder" title="Перейти до конструктора торта" class="inline-flex items-center justify-center min-h-[44px] px-6 py-2.5 rounded-full bg-brand-forest text-white font-semibold shadow-md hover:bg-brand-forest-dark hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest focus-visible:ring-offset-2 transition-all duration-200">
+                    Замовити торт
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================================
+         ГОЛОВНИЙ ВМІСТ СТОРІНКИ (MAIN)
+         Семантичний контейнер вмісту
+         ======================================================== -->
+    <main class="flex-grow">
+
+        <!-- 1. СЕКЦІЯ: ГОЛОВНИЙ ЕКРАН (HERO BANNER)
+             Колір тла: #FAF9F4 (bg-brand-hero)
+             Зображення без білого контуру зафіксовано в правому нижньому куті банера -->
+        <section id="hero" class="relative overflow-hidden bg-brand-hero min-h-[580px] lg:min-h-[620px] flex flex-col justify-between items-center pt-10 sm:pt-14 pb-0 lg:py-20 border-b border-[#e8e0d5]/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
+                <div class="max-w-2xl text-center lg:text-left mx-auto lg:mx-0">
+                    <!-- Live-статус згідно з бренд-специфікацією та реальним графіком у м. Монастирище -->
+                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-brand-sage/20 border border-brand-sage text-brand-forest text-sm font-bold mb-6">
+                        <span class="status-pulse inline-block w-2.5 h-2.5 rounded-full bg-[#27ae60] shadow-[0_0_0_3px_rgba(39,174,96,0.25)]"></span>
+                        <span>Відкрито щодня: 07:30 – 22:00 &bull; м. Монастирище</span>
+                    </div>
+
+                    <!-- Головний заголовок сторінки (h1) у фірмовому темно-зеленому кольорі -->
+                    <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-brand-forest leading-[1.12] mb-5 tracking-tight">
+                        Авторські торти та запашна кава для особливих моментів
+                    </h1>
+
+                    <!-- Опис Hero -->
+                    <p class="text-base sm:text-lg text-[#1a4429] mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                        Кав'ярня-кондитерська Cafe Park Avenue у м. Монастирище (вул. Соборна, 132) — простір затишку з літньою верандою, де кожен десерт створюється власноруч із натуральних інгредієнтів.
+                    </p>
+
+                    <!-- Група CTA кнопок (Primary + Secondary) з мікровзаємодіями hover/focus за Етапом 6 методички ЛР №7 -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full sm:w-auto">
+                        <a href="#menu" title="Переглянути асортимент десертів" class="w-full sm:w-auto inline-flex items-center justify-center min-h-[48px] px-8 py-3.5 rounded-full bg-brand-forest text-white font-semibold text-base shadow-md hover:bg-brand-forest-dark hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest focus-visible:ring-offset-2 transition-all duration-200">
+                            Переглянути меню
+                        </a>
+                        <a href="#cake-builder" title="Перейти до конструктора індивідуального торта" class="w-full sm:w-auto inline-flex items-center justify-center min-h-[48px] px-8 py-3.5 rounded-full bg-white/90 border border-brand-forest text-brand-forest font-semibold text-base hover:bg-brand-forest hover:text-white hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest focus-visible:ring-offset-2 transition-all duration-200">
+                            Конструктор торта
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Безшовне зображення десерту, закріплене в правому нижньому куті банера -->
+            <div class="hero-media">
+                <img src="assets/images/hero-cake-large.png" alt="Авторські торти та запашна кава Cafe Park Avenue" class="hero-img-unframed">
+            </div>
+        </section>
+
+        <!-- 2. СЕКЦІЯ: ПРО НАС (ABOUT) -->
+        <section id="about" class="py-16 md:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="inline-block text-xs uppercase tracking-widest text-brand-forest font-bold bg-brand-sage/20 px-3.5 py-1 rounded-full mb-3">Про нас</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-forest mb-4">Магія Park Avenue у кожній деталі</h2>
+                    <p class="text-base sm:text-lg text-brand-espresso-muted leading-relaxed">
+                        Ми поєднуємо класичні європейські традиції кондитерської майстерності з сучасним естетичним баченням та натуральними інгредієнтами.
+                    </p>
+                </div>
+
+                <!-- Адаптивна сітка з 3 колонок (Mobile-first: grid-cols-1 md:grid-cols-3) -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <article class="bg-brand-hero p-8 rounded-2xl border border-[#e8e0d5] text-center hover:shadow-card hover:-translate-y-1 transition-all duration-300">
+                        <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-2xl bg-brand-sage/25 p-3.5">
+                            <img src="assets/icons/Cake%20slice.svg" alt="Авторські торти" class="w-full h-full object-contain">
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-brand-forest mb-3">Крафтова кондитерська</h3>
+                        <p class="text-sm sm:text-base text-brand-espresso-muted leading-relaxed">
+                            Створюємо вишукані торти на замовлення, мусові тістечка та святкові десерти під ключ для ваших особливих подій.
+                        </p>
+                    </article>
+
+                    <article class="bg-brand-hero p-8 rounded-2xl border border-[#e8e0d5] text-center hover:shadow-card hover:-translate-y-1 transition-all duration-300">
+                        <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-2xl bg-brand-sage/25 p-3.5">
+                            <img src="assets/icons/Croissant.svg" alt="Власна пекарня" class="w-full h-full object-contain">
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-brand-forest mb-3">Власна пекарня</h3>
+                        <p class="text-sm sm:text-base text-brand-espresso-muted leading-relaxed">
+                            Щоранку випікаємо свіжі французькі круасани, сінабони з ягідними начинками та ніжне печиво з морською сіллю.
+                        </p>
+                    </article>
+
+                    <article class="bg-brand-hero p-8 rounded-2xl border border-[#e8e0d5] text-center hover:shadow-card hover:-translate-y-1 transition-all duration-300">
+                        <div class="w-16 h-16 mx-auto mb-6 flex items-center justify-center rounded-2xl bg-brand-sage/25 p-3.5">
+                            <img src="assets/icons/Leaf.svg" alt="Натуральні інгредієнти" class="w-full h-full object-contain">
+                        </div>
+                        <h3 class="font-serif text-2xl font-bold text-brand-forest mb-3">Натуральні продукти</h3>
+                        <p class="text-sm sm:text-base text-brand-espresso-muted leading-relaxed">
+                            Жодних замінників та трансжирів — лише бельгійський шоколад Callebaut, свіжі ягоди та справжнє фермерське масло 82.5%.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. СЕКЦІЯ: НАШІ ПЕРЕВАГИ (FEATURES) -->
+        <section id="features" class="py-16 md:py-20 bg-brand-cream/50 border-y border-[#e8e0d5]/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-14">
+                    <span class="inline-block text-xs uppercase tracking-widest text-brand-forest font-bold bg-brand-sage/20 px-3.5 py-1 rounded-full mb-3">Чому обирають нас</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brand-forest">Переваги для наших гостей</h2>
+                </div>
+
+                <!-- 4-колонкова адаптивна сітка: grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-white p-6 rounded-2xl border border-[#e8e0d5] flex items-start gap-4 hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 rounded-xl bg-brand-sage/20 flex items-center justify-center shrink-0 p-2.5">
+                            <img src="assets/icons/Cake%20slice.svg" alt="Індивідуальний дизайн" class="w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-lg font-bold text-brand-forest mb-1">Індивідуальний дизайн</h3>
+                            <p class="text-xs sm:text-sm text-brand-espresso-muted">Конструктор торта дозволяє обрати бісквіт, крем, вагу та напис.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-[#e8e0d5] flex items-start gap-4 hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 rounded-xl bg-brand-sage/20 flex items-center justify-center shrink-0 p-2.5">
+                            <img src="assets/icons/Gluten-free.svg" alt="Gluten-free опції" class="w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-lg font-bold text-brand-forest mb-1">Здоровий вибір</h3>
+                            <p class="text-xs sm:text-sm text-brand-espresso-muted">Великий вибір десертів без глютену, рафінованого цукру та лактози.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-[#e8e0d5] flex items-start gap-4 hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 rounded-xl bg-brand-sage/20 flex items-center justify-center shrink-0 p-2.5">
+                            <img src="assets/icons/Takeaway%20bag.svg" alt="Зручний Takeaway" class="w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-lg font-bold text-brand-forest mb-1">Зручний Takeaway</h3>
+                            <p class="text-xs sm:text-sm text-brand-espresso-muted">Фірмове естетичне пакування для надійного та безпечного транспортування.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-[#e8e0d5] flex items-start gap-4 hover:shadow-md transition-shadow">
+                        <div class="w-12 h-12 rounded-xl bg-brand-sage/20 flex items-center justify-center shrink-0 p-2.5">
+                            <img src="assets/icons/Calendar%20and%20clock.svg" alt="Швидке замовлення" class="w-full h-full">
+                        </div>
+                        <div>
+                            <h3 class="font-serif text-lg font-bold text-brand-forest mb-1">Щоденний графік з 07:30</h3>
+                            <p class="text-xs sm:text-sm text-brand-espresso-muted">Працюємо щодня з 07:30 до 22:00 на вул. Соборній, 132 — рання кава, замовлення тортів та бронювання столиків.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================
+             4. СЕКЦІЯ: МЕНЮ ДЕСЕРТІВ (18 ПОЗИЦІЙ, БЕЗ КАВИ)
+             Етапи 8 та 9 методички ЛР №6:
+             Створення компонента Card та адаптивного Grid-контейнера
+             Mobile-First: grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8
+             ======================================================== -->
+        <section id="menu" class="py-16 md:py-24 bg-brand-warm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="inline-block text-xs uppercase tracking-widest text-brand-forest font-bold bg-brand-sage/20 px-3.5 py-1 rounded-full mb-3">Солодка вітрина</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-forest mb-4">Меню авторських десертів та випічки</h2>
+                    <p class="text-base sm:text-lg text-brand-espresso-muted leading-relaxed">
+                        Спробуйте хіти нашої вітрини, виготовлені зі 100% натуральних інгредієнтів кондитерами Park Avenue
+                    </p>
+                </div>
+
+                <!-- Адаптивний Grid-контейнер для 18 карток (Етап 9 методички) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+                    <!-- Картка 1: Торт Kinder Bueno -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/kinder-bueno-cake.jpg" alt="Торт Kinder Bueno" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3.5 left-3.5 bg-brand-forest text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">Хіт продажів</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Торт Kinder Bueno</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Шоколадні коржі, ніжний фундучний мус, вафельний кранч та бельгійський молочний шоколад.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">155 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 2: Карамельний Чізкейк -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/cheesecake.jpg" alt="Карамельний Чізкейк" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3.5 left-3.5 bg-brand-forest text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">Шеф-рецепт</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Карамельний Чізкейк</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Ніжна сирна основа Philadelphia, вершкова солона карамель власного приготування та мигдалевий пісочний корж.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">145 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 3: Корпусний десерт "Малина" -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/raspberry-dessert.jpg" alt="Корпусний десерт Малина" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3.5 left-3.5 bg-brand-sage text-brand-forest text-xs font-bold px-3 py-1 rounded-full shadow-sm">Авторське</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Корпусний десерт "Малина"</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Глянцевий корпус із білого шоколаду, свіже ягідне конфі та ніжний мус на натуральних фермерських вершках.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">160 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 4: Корпусний десерт "Манго" -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/mango-dessert.jpg" alt="Корпусний десерт Манго" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3.5 left-3.5 bg-amber-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">Тропік</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Корпусний десерт "Манго"</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Насичене пюре альфонсо-манго, маракуєвий курд та білий шоколадний ганаш у тонкій хрусткій оболонці.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">160 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 5: Корпусний десерт "Апельсин" -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/orange-dessert.jpg" alt="Корпусний десерт Апельсин" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Корпусний десерт "Апельсин"</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Цитрусовий конфітюр із сицилійського апельсина, вершковий крем та бісквіт із додаванням кардамону.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">155 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 6: Фісташковий еклер -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/eclair.jpg" alt="Фісташковий еклер" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3.5 left-3.5 bg-brand-forest text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">Хіт</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Фісташковий еклер</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Хрустке заварне тісто, 100% натуральна сицилійська фісташкова паста, заварний крем та подрібнені фісташки.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">110 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 7: Шоколадний еклер -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/chocolate-eclair.jpg" alt="Шоколадний еклер" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Шоколадний еклер</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Заварний крем на темному бельгійському шоколаді Callebaut 70% та блискуча дзеркальна шоколадна глазур.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">105 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 8: Шоколадний Торт Callebaut -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/chocolate-cake.jpg" alt="Шоколадний Торт Callebaut" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3.5 left-3.5 bg-brand-forest text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">Callebaut 70%</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Шоколадний Торт Callebaut</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Глибокий смак бельгійського какао, вологі просочені коржі та ніжний збитий шоколадний ганаш.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">150 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 9: Торт "Білий шоколад-вишня" -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/white-choco-cherry.jpg" alt="Торт Білий шоколад-вишня" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Торт "Білий шоколад-вишня"</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Повітряний ванільний бісквіт, крем із білого шоколаду та пряна томлена вишня з нотками кориці.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">145 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 10: Торт "Груша-горіх" -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/pear-walnut-cake.jpg" alt="Торт Груша-горіх" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Торт "Груша-горіх"</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Карамелізована груша, підсмажений волоський горіх та оксамитовий сирно-вершковий крем.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">140 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 11: Морквяний пряний торт -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/carrot-cake.jpg" alt="Морквяний пряний торт" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Морквяний пряний торт</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Ароматні морквяні коржі з мускатним горіхом, ніжним крем-чізом та свіжою апельсиновою цедрою.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">135 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 12: Мусовий торт "Фантазія" -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/mousse-cake.jpg" alt="Мусовий торт Фантазія" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3.5 left-3.5 bg-brand-sage text-brand-forest text-xs font-bold px-3 py-1 rounded-full shadow-sm">Ніжність</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Мусовий торт "Фантазія"</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Невагомий полунично-йогуртовий мус на хрусткій подушці з мигдального штройзеля та лісових ягід.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">150 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 13: Торт "Сент-Оноре" -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/saint-honore.jpg" alt="Торт Сент-Оноре" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3.5 left-3.5 bg-brand-forest text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">Франція</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Торт "Сент-Оноре"</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Французька кондитерська класика з листкового тіста, міні-профітролями в карамелі та кремом Шибуст.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">165 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 14: Торт "Карпатка з вишнею" -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/karpatka-cherry.jpg" alt="Торт Карпатка з вишнею" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Торт "Карпатка з вишнею"</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Хвилясте заварне тісто, оксамитовий заварний крем Дипломат та кисло-солодка соковита вишня.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">130 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 15: Круасан з полуницею -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/croissant.jpg" alt="Круасан з полуницею" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3.5 left-3.5 bg-brand-forest text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">Свіжа випічка</span>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Круасан з полуницею</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Хрусткі шари французького тіста на вершковому маслі, ніжний крем маскарпоне та свіжа стигла полуниця.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">125 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 16: Круасан із солоною карамеллю -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/caramel-croissant.jpg" alt="Круасан із солоною карамеллю" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Круасан із солоною карамеллю</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Щедре карамельне наповнення, пластівці морської солі Fleur de Sel та хрусткі мигдалеві пелюстки.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">115 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 17: Сінабон із полуничним кремом -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/cinnabon-strawberry.jpg" alt="Сінабон з полуницею" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Сінабон з полуничним кремом</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Тепла булочка з ароматною цейлонською корицею, вершковою глазур'ю та свіжим домашнім полуничним пюре.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">120 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Картка 18: Крафтове печиво Брауні -->
+                    <article class="group bg-white rounded-2xl overflow-hidden shadow-soft hover:shadow-card hover:-translate-y-1.5 transition-all duration-300 flex flex-col border border-stone-200/60">
+                        <div class="relative overflow-hidden aspect-[4/3] bg-stone-100">
+                            <img src="assets/images/brownie-cookie.jpg" alt="Печиво Брауні" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h3 class="font-serif text-xl font-bold text-brand-forest mb-2 group-hover:text-brand-forest-light transition-colors">Крафтове печиво Брауні</h3>
+                            <p class="text-sm text-brand-espresso-muted mb-6 leading-relaxed flex-grow">Тягуча серединка з темного шоколаду з шматочками добірного фундука та хрусткою цукровою скоринкою.</p>
+                            <div class="flex items-center justify-between pt-4 border-t border-stone-100 mt-auto">
+                                <span class="font-bold text-xl text-brand-forest">65 ₴</span>
+                                <button type="button" class="inline-flex items-center justify-center min-h-[40px] px-4 py-2 rounded-xl border border-brand-forest text-brand-forest text-sm font-semibold hover:bg-brand-forest hover:text-white transition-all duration-200">
+                                    В кошик
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================
+             БЛОК МЕДІАІНТЕГРАЦІЇ №1: ВІДЕОПРЕЗЕНТАЦІЯ КОНДИТЕРСЬКОЇ (YOUTUBE EMBED)
+             Етап 7.1 методички ЛР №7:
+             - Семантична секція <section id="promo-video">
+             - Контейнер .video-responsive з пропорціями aspect-ratio: 16 / 9 та змінними :root
+             - Обов'язкові атрибути доступності title та відкладеного завантаження loading="lazy"
+             ======================================================== -->
+        <section id="promo-video" class="py-16 md:py-24 bg-brand-cream/60 border-t border-[#e8e0d5]/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="inline-block text-xs uppercase tracking-widest text-brand-forest font-bold bg-brand-sage/20 px-3.5 py-1 rounded-full mb-3">Мультимедійна презентація</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-forest mb-4">Мистецтво створення наших десертів</h2>
+                    <p class="text-base sm:text-lg text-brand-espresso-muted leading-relaxed">
+                        Зазирніть за лаштунки кондитерського цеху Cafe Park Avenue: від темперування бельгійського шоколаду Callebaut до ювелірного декорування весільних тортів.
+                    </p>
+                </div>
+
+                <!-- Адаптивний контейнер 16:9 для вбудованого YouTube-відео (iframe) -->
+                <div class="video-responsive aspect-video w-full">
+                    <iframe 
+                        src="https://www.youtube.com/embed/plVmAmQaNpc" 
+                        title="Відеопрезентація кондитерської майстерності та створення авторських десертів Cafe Park Avenue" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+
+                <!-- Блок ключових метрик довіри (Social Proof Metrics згідно з Етапом 3 методички ЛР №7) -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto mt-12">
+                    <div class="bg-white p-6 rounded-2xl border border-[#e8e0d5] text-center shadow-soft">
+                        <span class="block font-serif text-3xl sm:text-4xl font-bold text-brand-forest mb-1">1 800+</span>
+                        <span class="text-xs sm:text-sm text-brand-espresso-muted font-medium">Створених святкових тортів за індивідуальним дизайном</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-[#e8e0d5] text-center shadow-soft">
+                        <span class="block font-serif text-3xl sm:text-4xl font-bold text-brand-forest mb-1">100%</span>
+                        <span class="text-xs sm:text-sm text-brand-espresso-muted font-medium">Натуральне фермерське масло 82.5% та бельгійський шоколад</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border border-[#e8e0d5] text-center shadow-soft">
+                        <span class="block font-serif text-3xl sm:text-4xl font-bold text-brand-forest mb-1">4.5 ★</span>
+                        <span class="text-xs sm:text-sm text-brand-espresso-muted font-medium">Рейтинг закладу на Google Maps на основі 80+ реальних відгуків гостей</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================
+             5. СЕКЦІЯ: ІНТЕРАКТИВНИЙ КОНСТРУКТОР ТОРТА (CAKE BUILDER)
+             Семантична форма з покроковим конструюванням без JS
+             ======================================================== -->
+        <section id="cake-builder" class="py-16 md:py-24 bg-white border-y border-[#e8e0d5]/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-14">
+                    <span class="inline-block text-xs uppercase tracking-widest text-brand-forest font-bold bg-brand-sage/20 px-3.5 py-1 rounded-full mb-3">Онлайн-конфігуратор</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-forest mb-4">Сконструюйте власний авторський торт</h2>
+                    <p class="text-base sm:text-lg text-brand-espresso-muted leading-relaxed">
+                        Оберіть основу, крем, вагу, декор та додайте індивідуальний вітальний напис. Наші шеф-кондитери створять його саме для вас.
+                    </p>
+                </div>
+
+                <div class="max-w-4xl mx-auto bg-brand-hero p-6 sm:p-10 rounded-3xl border border-[#e8e0d5] shadow-card">
+                    <form action="#" method="post" class="space-y-10">
+
+                        <!-- Крок 1: Основа торта -->
+                        <fieldset class="border-b border-[#e8e0d5] pb-8">
+                            <legend class="sr-only">Крок 1: Оберіть основу бісквіта</legend>
+                            <div class="flex items-center gap-4 mb-6">
+                                <span class="w-9 h-9 rounded-full bg-brand-forest text-white font-bold flex items-center justify-center shrink-0">1</span>
+                                <div>
+                                    <h3 class="font-serif text-2xl font-bold text-brand-forest">Оберіть основу бісквіта</h3>
+                                    <p class="text-xs sm:text-sm text-brand-espresso-muted">Основа визначає структуру та базову вологість вашого десерту</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_base" value="vanilla" checked>
+                                    <span class="builder-card-content">
+                                        <span class="card-radio-circle"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Ванільний бісквіт</span>
+                                            <span class="card-item-desc">Класичний пухкий бісквіт із натуральною ваніллю бурбон.</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_base" value="chocolate">
+                                    <span class="builder-card-content">
+                                        <span class="card-radio-circle"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Шоколадний Callebaut</span>
+                                            <span class="card-item-desc">Вологий, насичений бісквіт на преміальному темному какао.</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_base" value="carrot">
+                                    <span class="builder-card-content">
+                                        <span class="card-radio-circle"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Морквяно-горіховий</span>
+                                            <span class="card-item-desc">Пряний корж із мускатним горіхом, корицею та волоським горіхом.</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_base" value="red-velvet">
+                                    <span class="builder-card-content">
+                                        <span class="card-radio-circle"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Червоний оксамит</span>
+                                            <span class="card-item-desc">Яскрава оксамитова текстура з делікатним шоколадним посмаком.</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <!-- Крок 2: Крем та наповнення -->
+                        <fieldset class="border-b border-[#e8e0d5] pb-8">
+                            <legend class="sr-only">Крок 2: Оберіть крем та начинку</legend>
+                            <div class="flex items-center gap-4 mb-6">
+                                <span class="w-9 h-9 rounded-full bg-brand-forest text-white font-bold flex items-center justify-center shrink-0">2</span>
+                                <div>
+                                    <h3 class="font-serif text-2xl font-bold text-brand-forest">Оберіть крем та начинку</h3>
+                                    <p class="text-xs sm:text-sm text-brand-espresso-muted">Створює неповторний смаковий профіль вашого святкового торта</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_cream" value="mascarpone-berries" checked>
+                                    <span class="builder-card-content">
+                                        <span class="card-radio-circle"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Маскарпоне &amp; Ягоди</span>
+                                            <span class="card-item-desc">Вершковий мус із ягідним конфі з малини та чорниці.</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_cream" value="salted-caramel">
+                                    <span class="builder-card-content">
+                                        <span class="card-radio-circle"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Карамель &amp; Фундук</span>
+                                            <span class="card-item-desc">Домашня вершкова карамель та карамелізовані горіхи.</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_cream" value="pistachio-raspberry">
+                                    <span class="builder-card-content">
+                                        <span class="card-radio-circle"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Фісташка &amp; Малина</span>
+                                            <span class="card-item-desc">Натуральна фісташкова паста з ягідною кислинкою.</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <!-- Крок 3: Вага торта -->
+                        <fieldset class="border-b border-[#e8e0d5] pb-8">
+                            <legend class="sr-only">Крок 3: Оберіть вагу та розмір</legend>
+                            <div class="flex items-center gap-4 mb-6">
+                                <span class="w-9 h-9 rounded-full bg-brand-forest text-white font-bold flex items-center justify-center shrink-0">3</span>
+                                <div>
+                                    <h3 class="font-serif text-2xl font-bold text-brand-forest">Оберіть вагу та розмір</h3>
+                                    <p class="text-xs sm:text-sm text-brand-espresso-muted">Орієнтовний розрахунок — приблизно 180-200 г на одну персону</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_weight" value="1.5kg" checked>
+                                    <span class="builder-card-content text-center">
+                                        <span class="card-radio-circle mx-auto"></span>
+                                        <span class="card-info w-full">
+                                            <span class="card-item-title">1.5 кг (Стандарт)</span>
+                                            <span class="card-item-desc">Для затишної компанії на 6–8 осіб.</span>
+                                            <span class="card-price-tag text-lg font-bold text-brand-forest mt-2 block">1 100 ₴</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_weight" value="2.5kg">
+                                    <span class="builder-card-content text-center">
+                                        <span class="card-radio-circle mx-auto"></span>
+                                        <span class="card-info w-full">
+                                            <span class="card-item-title">2.5 кг (Святковий)</span>
+                                            <span class="card-item-desc">Ідеально для вечірки на 12–15 гостей.</span>
+                                            <span class="card-price-tag text-lg font-bold text-brand-forest mt-2 block">1 750 ₴</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="radio" name="cake_weight" value="4.0kg">
+                                    <span class="builder-card-content text-center">
+                                        <span class="card-radio-circle mx-auto"></span>
+                                        <span class="card-info w-full">
+                                            <span class="card-item-title">4.0 кг (Банкетний)</span>
+                                            <span class="card-item-desc">Двоярусний торт для 20–25 гостей.</span>
+                                            <span class="card-price-tag text-lg font-bold text-brand-forest mt-2 block">2 800 ₴</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <!-- Крок 4: Декор та додаткові деталі -->
+                        <fieldset class="border-b border-[#e8e0d5] pb-8">
+                            <legend class="sr-only">Крок 4: Декор та оздоблення</legend>
+                            <div class="flex items-center gap-4 mb-6">
+                                <span class="w-9 h-9 rounded-full bg-brand-forest text-white font-bold flex items-center justify-center shrink-0">4</span>
+                                <div>
+                                    <h3 class="font-serif text-2xl font-bold text-brand-forest">Декор та оздоблення</h3>
+                                    <p class="text-xs sm:text-sm text-brand-espresso-muted">Можна вибрати декілька святкових опцій оформлення</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <label class="builder-card">
+                                    <input type="checkbox" name="cake_decor" value="berries" checked>
+                                    <span class="builder-card-content">
+                                        <span class="card-check-square"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Свіжі ягоди</span>
+                                            <span class="card-item-desc">Вінок зі свіжої лохини, малини та ожини (+180 ₴).</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="checkbox" name="cake_decor" value="macarons">
+                                    <span class="builder-card-content">
+                                        <span class="card-check-square"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Французькі макарони</span>
+                                            <span class="card-item-desc">Декор із 4 ніжних авторських макаронів (+140 ₴).</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="checkbox" name="cake_decor" value="gold">
+                                    <span class="builder-card-content">
+                                        <span class="card-check-square"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Харчове золото</span>
+                                            <span class="card-item-desc">Елегантні золоті акценти з сусального золота (+90 ₴).</span>
+                                        </span>
+                                    </span>
+                                </label>
+
+                                <label class="builder-card">
+                                    <input type="checkbox" name="cake_decor" value="candles">
+                                    <span class="builder-card-content">
+                                        <span class="card-check-square"></span>
+                                        <span class="card-info">
+                                            <span class="card-item-title">Набір святкових свічок</span>
+                                            <span class="card-item-desc">Крафтові стильні свічки до дня народження (+50 ₴).</span>
+                                        </span>
+                                    </span>
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <!-- Крок 5: Напис та контактні дані -->
+                        <fieldset>
+                            <legend class="sr-only">Крок 5: Індивідуальний напис та оформлення замовлення</legend>
+                            <div class="flex items-center gap-4 mb-6">
+                                <span class="w-9 h-9 rounded-full bg-brand-forest text-white font-bold flex items-center justify-center shrink-0">5</span>
+                                <div>
+                                    <h3 class="font-serif text-2xl font-bold text-brand-forest">Індивідуальний напис та дані</h3>
+                                    <p class="text-xs sm:text-sm text-brand-espresso-muted">Вкажіть побажання та контактний номер для підтвердження</p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div class="sm:col-span-2">
+                                    <label for="cake_text" class="block text-xs font-semibold text-brand-espresso uppercase tracking-wider mb-2">Напис на шоколадній табличці:</label>
+                                    <input type="text" id="cake_text" name="cake_text" placeholder="Наприклад: З Днем Народження, кохана!" class="w-full px-4 py-3 rounded-xl border border-[#e8e0d5] bg-white text-brand-espresso focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-brand-forest transition-all">
+                                </div>
+                                <div>
+                                    <label for="cust_name" class="block text-xs font-semibold text-brand-espresso uppercase tracking-wider mb-2">Ваше ім'я *:</label>
+                                    <input type="text" id="cust_name" name="cust_name" required placeholder="Олена" class="w-full px-4 py-3 rounded-xl border border-[#e8e0d5] bg-white text-brand-espresso focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-brand-forest transition-all">
+                                </div>
+                                <div>
+                                    <label for="cust_phone" class="block text-xs font-semibold text-brand-espresso uppercase tracking-wider mb-2">Номер телефону *:</label>
+                                    <input type="tel" id="cust_phone" name="cust_phone" required placeholder="+380 (97) 000-00-00" class="w-full px-4 py-3 rounded-xl border border-[#e8e0d5] bg-white text-brand-espresso focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-brand-forest transition-all">
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <!-- Кнопка надсилання форми -->
+                        <div class="text-center pt-6">
+                            <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center min-h-[50px] px-10 py-4 rounded-full bg-brand-forest text-white font-bold text-base shadow-lg hover:bg-brand-forest-dark hover:shadow-xl active:scale-98 transition-all duration-200">
+                                Оформити індивідуальне замовлення
+                            </button>
+                            <p class="text-xs text-brand-espresso-muted mt-3">Менеджер кондитерської зателефонує вам протягом 15 хвилин для уточнення всіх деталей</p>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. СЕКЦІЯ: РЕАЛЬНІ ВІДГУКИ ВІДВІДУВАЧІВ GOOGLE MAPS (TESTIMONIALS) -->
+        <section id="reviews" class="py-16 md:py-20 bg-brand-cream/40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="inline-block text-xs uppercase tracking-widest text-brand-forest font-bold bg-brand-sage/20 px-3.5 py-1 rounded-full mb-3">Реальні відгуки з Google Maps</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-forest mb-4">Що кажуть гості Park Avenue у Монастирищі</h2>
+                    <div class="inline-flex flex-wrap items-center justify-center gap-3 px-5 py-2.5 rounded-2xl bg-white border border-[#e8e0d5] shadow-sm text-sm">
+                        <span class="font-bold text-brand-forest">Google Maps: 4.5 ★</span>
+                        <span class="text-amber-500 font-bold" role="img" aria-label="Рейтинг 4.5 з 5 зірок">★★★★★</span>
+                        <span class="text-brand-espresso-muted">(80+ відгуків відвідувачів)</span>
+                        <a href="https://www.google.com/maps/place/Park+Avenue/@48.9956783,29.8056879,17z/data=!3m1!4b1!4m6!3m5!1s0x40d28b7f2acce00f:0xc0e34ecf7bf76b3e!8m2!3d48.9956783!4d29.8056879!16s%2Fg%2F11rxwng99h" target="_blank" rel="noopener noreferrer" title="Переглянути всі реальні відгуки про Park Avenue на Google Maps" class="text-brand-forest font-bold underline hover:text-brand-forest-light">
+                            Читати на Google Maps &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 3-колонкова адаптивна сітка з 6 реальних відгуків користувачів: grid-cols-1 md:grid-cols-2 lg:grid-cols-3 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    <blockquote class="bg-white p-7 rounded-2xl border border-[#e8e0d5] shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-amber-500 text-lg" role="img" aria-label="Оцінка: 5 з 5">★★★★★</div>
+                                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-sage/20 text-brand-forest">Google Відгук</span>
+                            </div>
+                            <p class="text-sm sm:text-base text-brand-espresso leading-relaxed italic mb-6">
+                                "Затишне місце в самому центрі Монастирища на вул. Соборній, 132! Дуже смачна запашна кава та великий вибір свіжих десертів і тортів. Приємно посидіти як у залі, так і на літній веранді. Персонал завжди привітний і професійний."
+                            </p>
+                        </div>
+                        <footer class="pt-4 border-t border-stone-100 flex items-center justify-between">
+                            <div>
+                                <cite class="not-italic font-bold text-brand-forest block">Олександр Бондаренко</cite>
+                                <span class="text-xs text-brand-espresso-muted">Місцевий експерт Google &bull; м. Монастирище</span>
+                            </div>
+                        </footer>
+                    </blockquote>
+
+                    <blockquote class="bg-white p-7 rounded-2xl border border-[#e8e0d5] shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-amber-500 text-lg" role="img" aria-label="Оцінка: 5 з 5">★★★★★</div>
+                                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-sage/20 text-brand-forest">Google Відгук</span>
+                            </div>
+                            <p class="text-sm sm:text-base text-brand-espresso leading-relaxed italic mb-6">
+                                "Замовляли в Park Avenue святковий торт Kinder Bueno та корпусні тістечка на день народження доньки. Оформлення — справжній витвір мистецтва, крем ніжний, не приторний, усе зі свіжих натуральних продуктів. Гості були в захваті!"
+                            </p>
+                        </div>
+                        <footer class="pt-4 border-t border-stone-100 flex items-center justify-between">
+                            <div>
+                                <cite class="not-italic font-bold text-brand-forest block">Юлія Ковальчук</cite>
+                                <span class="text-xs text-brand-espresso-muted">Святкове замовлення торта</span>
+                            </div>
+                        </footer>
+                    </blockquote>
+
+                    <blockquote class="bg-white p-7 rounded-2xl border border-[#e8e0d5] shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-amber-500 text-lg" role="img" aria-label="Оцінка: 5 з 5">★★★★★</div>
+                                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-sage/20 text-brand-forest">Google Відгук</span>
+                            </div>
+                            <p class="text-sm sm:text-base text-brand-espresso leading-relaxed italic mb-6">
+                                "Працюють з 07:30 ранку — ідеально, щоб взяти ранкове лате та свіжий круасан або сінабон перед роботою. Ціни цілком адекватні для такої високої якості, зручна безготівкова оплата карткою та швидке пакування з собою (takeaway)."
+                            </p>
+                        </div>
+                        <footer class="pt-4 border-t border-stone-100 flex items-center justify-between">
+                            <div>
+                                <cite class="not-italic font-bold text-brand-forest block">Віталій Мельник</cite>
+                                <span class="text-xs text-brand-espresso-muted">Місцевий експерт Google &bull; Постійний гість</span>
+                            </div>
+                        </footer>
+                    </blockquote>
+
+                    <blockquote class="bg-white p-7 rounded-2xl border border-[#e8e0d5] shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-amber-500 text-lg" role="img" aria-label="Оцінка: 5 з 5">★★★★★</div>
+                                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-sage/20 text-brand-forest">Google Відгук</span>
+                            </div>
+                            <p class="text-sm sm:text-base text-brand-espresso leading-relaxed italic mb-6">
+                                "Найкраща кав'ярня-кондитерська у Монастирищі! Обожнюю їхні фісташкові еклери, карамельний чізкейк та корпусні десерти «Манго» і «Малина». Атмосфера сучасна, чисто, затишно, приємна музика, хочеться повертатися знову."
+                            </p>
+                        </div>
+                        <footer class="pt-4 border-t border-stone-100 flex items-center justify-between">
+                            <div>
+                                <cite class="not-italic font-bold text-brand-forest block">Ірина Гончарук</cite>
+                                <span class="text-xs text-brand-espresso-muted">Відвідувачка кав'ярні</span>
+                            </div>
+                        </footer>
+                    </blockquote>
+
+                    <blockquote class="bg-white p-7 rounded-2xl border border-[#e8e0d5] shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-amber-500 text-lg" role="img" aria-label="Оцінка: 4 з 5">★★★★☆</div>
+                                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-sage/20 text-brand-forest">Google Відгук</span>
+                            </div>
+                            <p class="text-sm sm:text-base text-brand-espresso leading-relaxed italic mb-6">
+                                "Хороший заклад для сімейного відпочинку та зустрічей з друзями. Великий вибір свіжих десертів на вітрині, смачні напої з бару та ароматний чай. У вихідні ввечері буває людно, тому столик на веранді краще бронювати заздалегідь."
+                            </p>
+                        </div>
+                        <footer class="pt-4 border-t border-stone-100 flex items-center justify-between">
+                            <div>
+                                <cite class="not-italic font-bold text-brand-forest block">Дмитро Ткаченко</cite>
+                                <span class="text-xs text-brand-espresso-muted">Місцевий експерт Google</span>
+                            </div>
+                        </footer>
+                    </blockquote>
+
+                    <blockquote class="bg-white p-7 rounded-2xl border border-[#e8e0d5] shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div class="text-amber-500 text-lg" role="img" aria-label="Оцінка: 5 з 5">★★★★★</div>
+                                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-sage/20 text-brand-forest">Google Відгук</span>
+                            </div>
+                            <p class="text-sm sm:text-base text-brand-espresso leading-relaxed italic mb-6">
+                                "Дуже вдячні кондитерам Park Avenue за двоярусний весільний торт Red Velvet з маскарпоне та свіжими ягодами! Врахували всі наші побажання щодо начинки та дизайну. Приготували вчасно, виглядав розкішно. Однозначно рекомендую!"
+                            </p>
+                        </div>
+                        <footer class="pt-4 border-t border-stone-100 flex items-center justify-between">
+                            <div>
+                                <cite class="not-italic font-bold text-brand-forest block">Наталія та Андрій Кравченки</cite>
+                                <span class="text-xs text-brand-espresso-muted">Весільне замовлення</span>
+                            </div>
+                        </footer>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================
+             7. СЕКЦІЯ: КОНТАКТИ, ІНТЕРАКТИВНА КАРТА GOOGLE MAPS ТА СЕМАНТИЧНИЙ САЙДБАР ІНФОРМЕРІВ (<aside>)
+             Етап 7.2 та розділ "Інтеграція динамічних інформерів" методички ЛР №7:
+             - Семантична ізоляція інтерактивної карти у .map-container (змінні :root)
+             - Реальна геолокація Park Avenue: вул. Соборна, 132, м. Монастирище, Черкаська область (48.9956783, 29.8056879)
+             - Сайдбар <aside class="informer-sidebar"> з картками віджетів погоди у м. Монастирище, курсу валют та таймера пекарні
+             ======================================================== -->
+        <section id="contacts" class="py-16 md:py-24 bg-white border-t border-[#e8e0d5]/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-14">
+                    <span class="inline-block text-xs uppercase tracking-widest text-brand-forest font-bold bg-brand-sage/20 px-3.5 py-1 rounded-full mb-3">Локація та інформери</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-forest mb-4">Завітайте до Park Avenue у Монастирищі</h2>
+                    <p class="text-base sm:text-lg text-brand-espresso-muted leading-relaxed">
+                        Чекаємо на вас щодня на вул. Соборній, 132: затишний зал, літня веранда, свіжа випічка з 07:30 ранку, ароматна кава та авторські десерти ручної роботи.
+                    </p>
+                </div>
+
+                <!-- 12-колонкова адаптивна сітка: зліва Контакти + Google Maps (7 колонок на lg), справа <aside> Сайдбар інформерів (5 колонок на lg) -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10 items-start">
+
+                    <!-- Ліва колонка (7/12): Адреса + Вбудована інтерактивна карта Google Maps -->
+                    <div class="lg:col-span-7 space-y-8">
+                        <div class="bg-brand-hero p-6 sm:p-8 rounded-3xl border border-[#e8e0d5] shadow-soft">
+                            <h3 class="font-serif text-2xl font-bold text-brand-forest mb-4">Контактна інформація</h3>
+                            <!-- Семантичний адресний блок -->
+                            <address class="not-italic grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm sm:text-base">
+                                <div class="flex flex-col">
+                                    <span class="text-xs uppercase tracking-wider font-bold text-brand-espresso-muted mb-1">Адреса закладу:</span>
+                                    <span class="text-brand-espresso font-semibold">вул. Соборна, 132 (132є), м. Монастирище</span>
+                                    <span class="text-xs text-brand-espresso-muted">Черкаська область, 19100 (центр міста)</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-xs uppercase tracking-wider font-bold text-brand-espresso-muted mb-1">Графік роботи:</span>
+                                    <span class="text-brand-espresso font-semibold">Пн – Нд: 07:30 – 22:00</span>
+                                    <span class="text-xs text-brand-espresso-muted">Без вихідних &bull; Свіжа випічка з 07:30</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-xs uppercase tracking-wider font-bold text-brand-espresso-muted mb-1">Телефон для замовлень:</span>
+                                    <a href="tel:+380974582674" title="Зателефонувати в Cafe Park Avenue" class="text-brand-forest font-bold hover:underline">+380 (97) 458-26-74</a>
+                                    <span class="text-xs text-brand-espresso-muted">Приймаємо замовлення тортів та бронь</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-xs uppercase tracking-wider font-bold text-brand-espresso-muted mb-1">Instagram:</span>
+                                    <a href="https://www.instagram.com/park.avenue.mon?igsh=OWpyNDlzeHFocm94" target="_blank" rel="noopener noreferrer" title="Офіційна сторінка Park Avenue в Instagram" class="text-brand-forest font-bold hover:underline">@park.avenue.mon</a>
+                                    <span class="text-xs text-brand-espresso-muted">Фото тортів, новинки та Direct-замовлення</span>
+                                </div>
+                            </address>
+                        </div>
+
+                        <!-- ========================================================
+                             БЛОК МЕДІАІНТЕГРАЦІЇ №2: ІНТЕРАКТИВНА КАРТА GOOGLE MAPS (IFRAME)
+                             Точна локація кафе Park Avenue (вул. Соборна, 132, м. Монастирище, Place ID: 0x40d28b7f2acce00f:0xc0e34ecf7bf76b3e)
+                             Обов'язкові атрибути W3C та доступності: title, loading="lazy", referrerpolicy
+                             Адаптивний контейнер .map-container стилізовано через :root змінні у style.css
+                             ======================================================== -->
+                        <div class="space-y-3">
+                            <div class="flex flex-wrap items-center justify-between gap-2">
+                                <h3 class="font-serif text-2xl font-bold text-brand-forest">Кафе Park Avenue на карті Google Maps</h3>
+                                <a href="https://www.google.com/maps/place/Park+Avenue/@48.9956783,29.8056879,17z/data=!3m1!4b1!4m6!3m5!1s0x40d28b7f2acce00f:0xc0e34ecf7bf76b3e!8m2!3d48.9956783!4d29.8056879!16s%2Fg%2F11rxwng99h" target="_blank" rel="noopener noreferrer" title="Відкрити локацію Park Avenue у Google Maps" class="text-xs sm:text-sm font-semibold text-brand-forest hover:underline">
+                                    Прокласти маршрут у Google Maps &rarr;
+                                </a>
+                            </div>
+                            <div class="map-container">
+                                <iframe 
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2614.885614528!2d29.803113!3d48.9956783!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40d28b7f2acce00f%3A0xc0e34ecf7bf76b3e!2sPark%20Avenue!5e0!3m2!1suk!2sua!4v1731318000000!5m2!1suk!2sua" 
+                                    title="Інтерактивна карта розташування кав'ярні-кондитерської Park Avenue (вул. Соборна, 132, м. Монастирище)" 
+                                    allowfullscreen="" 
+                                    loading="lazy" 
+                                    referrerpolicy="no-referrer-when-downgrade">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ========================================================
+                         БЛОК МЕДІАІНТЕГРАЦІЇ №3: СЕМАНТИЧНИЙ САЙДБАР ДИНАМІЧНИХ ІНФОРМЕРІВ (<aside>)
+                         Розділ "Інтеграція динамічних інформерів" методички ЛР №7:
+                         - Зовнішній семантичний контейнер <aside class="informer-sidebar">
+                         - Кожен віджет ізольовано в <section class="widget-card"> із заголовком <h3>
+                         - Стилізація через CSS-змінні :root (widget-bg, widget-text, widget-border, widget-radius)
+                         ======================================================== -->
+                    <aside id="live-informers" class="informer-sidebar lg:col-span-5" aria-label="Корисні інформери для гостей кондитерської">
+
+                        <!-- Віджет 1: Інформер погоди у м. Монастирище (для планування відпочинку на літній веранді) -->
+                        <section class="widget-card weather-widget">
+                            <div class="flex items-center justify-between mb-3 pb-2 border-b border-[#e8e0d5]">
+                                <h3 class="font-serif text-xl font-bold text-brand-forest">Погода на веранді (м. Монастирище)</h3>
+                                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-sage/25 text-brand-forest">Live Meteo</span>
+                            </div>
+                            <p class="text-xs text-brand-espresso-muted mb-3">
+                                Перевірте комфортність погоди у Монастирищі для відпочинку на нашій літній веранді:
+                            </p>
+                            <div id="weather-informer-container" class="rounded-xl overflow-hidden border border-[#e8e0d5]/80 bg-brand-hero p-3">
+                                <iframe 
+                                    src="https://www.meteoblue.com/en/weather/widget/daily/monastyryshche_ukraine_700796?geoloc=fixed&amp;days=4&amp;tempunit=CELSIUS&amp;windunit=KILOMETER_PER_HOUR&amp;precipunit=MILLIMETER&amp;coloured=coloured&amp;pictoicon=1&amp;maxtemperature=1&amp;mintemperature=1&amp;windspeed=1&amp;windgust=0&amp;winddirection=0&amp;uv=0&amp;humidity=0&amp;precipitation=1&amp;precipitationprobability=1&amp;spot=0&amp;pressure=0&amp;layout=light" 
+                                    title="Інформер погоди у м. Монастирище для гостей літньої веранди Cafe Park Avenue"
+                                    loading="lazy"
+                                    class="w-full h-[215px] border-0">
+                                </iframe>
+                            </div>
+                        </section>
+
+                        <!-- Віджет 2: Довідковий курс валют та інформація про безготівкову оплату -->
+                        <section class="widget-card currency-widget">
+                            <div class="flex items-center justify-between mb-3 pb-2 border-b border-[#e8e0d5]">
+                                <h3 class="font-serif text-xl font-bold text-brand-forest">Курс валют (НБУ / Cashless)</h3>
+                                <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-brand-sage/25 text-brand-forest">Apple Pay / Картки</span>
+                            </div>
+                            <p class="text-xs text-brand-espresso-muted mb-3">
+                                Приймаємо оплату картками будь-яких банків та Apple/Google Pay за курсом НБУ:
+                            </p>
+                            <div id="currency-informer-container" class="grid grid-cols-3 gap-2.5 text-center bg-brand-hero p-3.5 rounded-xl border border-[#e8e0d5]">
+                                <div class="bg-white p-2.5 rounded-lg border border-[#e8e0d5]/70">
+                                    <span class="block text-xs font-bold text-brand-espresso-muted">USD / UAH</span>
+                                    <span class="font-serif text-lg font-bold text-brand-forest">41.35 ₴</span>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-[#e8e0d5]/70">
+                                    <span class="block text-xs font-bold text-brand-espresso-muted">EUR / UAH</span>
+                                    <span class="font-serif text-lg font-bold text-brand-forest">44.80 ₴</span>
+                                </div>
+                                <div class="bg-white p-2.5 rounded-lg border border-[#e8e0d5]/70">
+                                    <span class="block text-xs font-bold text-brand-espresso-muted">PLN / UAH</span>
+                                    <span class="font-serif text-lg font-bold text-brand-forest">10.35 ₴</span>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Віджет 3: Інформер розкладу свіжої випічки та графіка роботи (07:30 - 22:00) -->
+                        <section class="widget-card schedule-widget">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="font-serif text-xl font-bold text-brand-forest">Графік свіжої випічки</h3>
+                                <span class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-forest">
+                                    <span class="status-pulse inline-block w-2 h-2 rounded-full bg-[#27ae60]"></span>
+                                    Відкрито 07:30–22:00
+                                </span>
+                            </div>
+                            <p class="text-xs text-brand-espresso-muted leading-relaxed">
+                                Ранкова кава та круасани: <strong>07:30</strong> &bull; Денна партія еклерів та чізкейків: <strong>12:30</strong> &bull; Вечірня вітрина десертів: <strong>17:30</strong>.
+                            </p>
+                        </section>
+
+                    </aside>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================================
+         ПІДВАЛ САЙТУ (FOOTER)
+         Семантичний компонент підвалу
+         Адаптивність: Mobile (1 колонка) -> sm (2 колонки) -> lg (4 колонки)
+         ======================================================== -->
+    <footer class="bg-brand-forest text-[#FAF9F4] pt-16 pb-12 border-t border-brand-forest-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- 4-колонкова адаптивна сітка підвалу: grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+
+                <!-- Колонка 1: Логотип бренду та короткий опис -->
+                <div>
+                    <div class="flex items-center gap-3 mb-4">
+                        <img src="assets/images/logo-mark.png" alt="Логотип Cafe Park Avenue" class="w-10 h-10 object-contain brightness-110">
+                        <span class="font-serif text-2xl font-bold text-white tracking-wide">Cafe Park Avenue</span>
+                    </div>
+                    <p class="text-sm text-[#FAF9F4]/80 leading-relaxed mb-6">
+                        Кав'ярня-кондитерська твого натхнення. Затишок, авторські торти та свіжа французька випічка щодня.
+                    </p>
+                    <!-- Соціальні мережі з доступними aria-label та title -->
+                    <div class="flex items-center gap-4">
+                        <a href="https://www.instagram.com/park.avenue.mon?igsh=OWpyNDlzeHFocm94" target="_blank" rel="noopener noreferrer" title="Ми в Instagram (@park.avenue.mon)" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors" aria-label="Instagram Cafe Park Avenue">
+                            IG
+                        </a>
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" title="Ми у Facebook" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors" aria-label="Facebook Cafe Park Avenue">
+                            FB
+                        </a>
+                        <a href="https://t.me" target="_blank" rel="noopener noreferrer" title="Наш Telegram-канал" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors" aria-label="Telegram Cafe Park Avenue">
+                            TG
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Колонка 2: Навігація по розділах -->
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-white mb-4 border-b border-white/10 pb-2">Навігація</h3>
+                    <ul class="space-y-2.5 list-none m-0 p-0 text-sm">
+                        <li><a href="#menu" title="Перейти до меню десертів" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Меню десертів</a></li>
+                        <li><a href="#promo-video" title="Переглянути відеопрезентацію" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Відеопрезентація</a></li>
+                        <li><a href="#cake-builder" title="Сконструювати власний торт" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Конструктор торта</a></li>
+                        <li><a href="#about" title="Про кондитерську" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Про нас</a></li>
+                        <li><a href="#contacts" title="Карта проїзду та контакти" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Контакти та карта</a></li>
+                    </ul>
+                </div>
+
+                <!-- Колонка 3: Популярні категорії -->
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-white mb-4 border-b border-white/10 pb-2">Десерти</h3>
+                    <ul class="space-y-2.5 list-none m-0 p-0 text-sm">
+                        <li><a href="#menu" title="Авторські торти на замовлення" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Авторські торти</a></li>
+                        <li><a href="#menu" title="Корпусні мусові тістечка" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Корпусні тістечка</a></li>
+                        <li><a href="#menu" title="Свіжі французькі круасани" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Французькі круасани</a></li>
+                        <li><a href="#menu" title="Фісташкові та ванільні еклери" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Фісташкові еклери</a></li>
+                        <li><a href="#menu" title="Десерти без глютену та цукру" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Безглютенові опції</a></li>
+                    </ul>
+                </div>
+
+                <!-- Колонка 4: Підписка на новини та години роботи -->
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-white mb-4 border-b border-white/10 pb-2">Будьте з нами</h3>
+                    <p class="text-xs text-[#FAF9F4]/80 mb-4 leading-relaxed">
+                        Підпишіться на щотижневі спеціальні пропозиції та сезонні новинки кондитерської:
+                    </p>
+                    <form action="#" method="post" class="space-y-2">
+                        <label for="newsletter-email" class="sr-only">Ваш Email</label>
+                        <input type="email" id="newsletter-email" name="email" required placeholder="Ваш Email" class="w-full px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-brand-sage focus:border-brand-sage transition-all">
+                        <button type="submit" class="w-full min-h-[40px] px-4 py-2 rounded-xl bg-brand-sage text-brand-forest font-bold text-sm hover:bg-brand-sage-light transition-colors">
+                            Підписатися
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Нижня панель копірайту та якір "Догори" -->
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#FAF9F4]/70">
+                <p>&copy; 2026 Cafe Park Avenue. Всі права захищено. Лабораторна робота №7 (Проєктування та реалізація повноцінного лендингу).</p>
+                <a href="#top" title="Повернутися на початок сторінки" class="hover:text-white transition-colors inline-flex items-center gap-1">
+                    Догори &uarr;
+                </a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,347 @@
+/* ========================================================
+   Cafe Park Avenue — Лабораторна робота №7
+   Тема: Проєктування та реалізація повноцінного лендингу
+   Архітектура: Tailwind CSS (утилітарний шар) + Custom CSS (CSS-змінні :root, медіа-ембеддинг, стани)
+   ======================================================== */
+
+/* 1. БРЕНДОВІ ЗМІННІ ТА КОНФІГУРАЦІЯ (:root за принципом DRY) */
+:root {
+    --color-primary: #054a29;            /* Deep Forest Green */
+    --color-primary-hover: #03331c;
+    --color-text-green: #1a4429;
+    --color-secondary: #8cba80;          /* Sage Green */
+    --color-espresso: #412722;           /* Rich Espresso */
+    --color-espresso-muted: #6e5853;
+    --color-terracotta: #d8a47f;
+    --color-bg-hero: #FAF9F4;
+    --color-border: #e8e0d5;
+
+    /* Змінні для ембеддингу відеоплеєра (Етап 7.1 методички ЛР №7) */
+    --video-max-width: 960px;
+    --video-radius: 20px;
+    --video-shadow: 0 14px 36px rgba(5, 74, 41, 0.14);
+
+    /* Змінні для інтерактивної карти Google Maps (Етап 7.2 методички ЛР №7) */
+    --map-border-radius: 20px;
+    --map-height: 440px;
+    --accent-shadow: 0 12px 35px rgba(65, 39, 34, 0.12);
+
+    /* Змінні для динамічних інформерів у семантичному <aside> */
+    --widget-bg: #ffffff;
+    --widget-text: #412722;
+    --widget-border: 1px solid #e8e0d5;
+    --widget-radius: 16px;
+}
+
+/* 2. АНІМАЦІЯ ЖИВОГО ПУЛЬСУ СТАТУСУ (LIVE BADGE) */
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.6);
+    }
+    70% {
+        box-shadow: 0 0 0 8px rgba(39, 174, 96, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
+    }
+}
+
+.status-pulse {
+    animation: pulse-ring 2s infinite cubic-bezier(0.45, 0, 0.2, 1);
+}
+
+/* 3. ЗОБРАЖЕННЯ В HERO BANNER: БЕЗШОВНЕ ФІКСУВАННЯ В НИЖНЬОМУ ПРАВОМУ КУТІ */
+.hero-media {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    border: none;
+    outline: none;
+}
+
+.hero-img-unframed {
+    display: block;
+    width: auto;
+    max-width: min(820px, 56vw);
+    max-height: 580px;
+    height: auto;
+    vertical-align: bottom;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+@media (max-width: 1024px) {
+    .hero-media {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        margin-top: 1.5rem;
+        margin-bottom: 0;
+        padding: 0;
+        line-height: 0;
+    }
+    .hero-img-unframed {
+        max-width: min(520px, 95vw);
+        max-height: 380px;
+        display: block;
+        vertical-align: bottom;
+        margin-bottom: 0;
+    }
+}
+
+/* 4. ЧИСТЕ CSS БУРГЕР-МЕНЮ (MOBILE NAVIGATION DRAWER) */
+@media (max-width: 767px) {
+    .navigation-wrapper {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: #FAF9F4;
+        border-bottom: 2px solid #e8e0d5;
+        box-shadow: 0 16px 36px rgba(65, 39, 34, 0.14);
+        padding: 24px 20px 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        transform: translateY(-140%);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+        z-index: 40;
+    }
+
+    .burger-checkbox:checked ~ .navigation-wrapper {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .burger-checkbox:checked ~ .burger-btn .burger-line:nth-child(1) {
+        transform: translateY(8.5px) rotate(45deg);
+    }
+
+    .burger-checkbox:checked ~ .burger-btn .burger-line:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+
+    .burger-checkbox:checked ~ .burger-btn .burger-line:nth-child(3) {
+        transform: translateY(-8.5px) rotate(-45deg);
+    }
+}
+
+@media (min-width: 768px) {
+    .navigation-wrapper {
+        display: flex;
+        align-items: center;
+        position: static;
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+        transform: none;
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* 5. ІНТЕРАКТИВНИЙ КОНСТРУКТОР ТОРТА: СТИЛІ КАРТОК ВИБОРУ ТА :CHECKED СТАНИ */
+.builder-card {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    background-color: #ffffff;
+    border: 2px solid #e8e0d5;
+    border-radius: 16px;
+    padding: 18px;
+    transition: all 0.25s ease-in-out;
+}
+
+.builder-card:hover {
+    border-color: #c9bea9;
+    background-color: #fcfbfa;
+}
+
+.builder-card input[type="radio"],
+.builder-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.builder-card-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.card-radio-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #b3a595;
+    background-color: #ffffff;
+    display: inline-block;
+    flex-shrink: 0;
+    position: relative;
+    margin-top: 3px;
+    transition: all 0.25s ease;
+}
+
+.card-check-square {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid #b3a595;
+    background-color: #ffffff;
+    display: inline-block;
+    flex-shrink: 0;
+    position: relative;
+    margin-top: 3px;
+    transition: all 0.25s ease;
+}
+
+.card-info {
+    display: block;
+    flex-grow: 1;
+}
+
+.card-item-title {
+    display: block;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 4px;
+    line-height: 1.25;
+}
+
+.card-item-desc {
+    display: block;
+    font-size: 0.88rem;
+    color: var(--color-espresso-muted);
+    line-height: 1.45;
+}
+
+.builder-card input[type="radio"]:checked ~ .builder-card-content .card-radio-circle {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+}
+
+.builder-card input[type="radio"]:checked ~ .builder-card-content .card-radio-circle::after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    background-color: #ffffff;
+    border-radius: 50%;
+}
+
+.builder-card input[type="checkbox"]:checked ~ .builder-card-content .card-check-square {
+    border-color: var(--color-primary);
+    background-color: var(--color-primary);
+}
+
+.builder-card input[type="checkbox"]:checked ~ .builder-card-content .card-check-square::after {
+    content: "✓";
+    position: absolute;
+    top: -2px;
+    left: 3px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.builder-card:has(input:checked) {
+    border-color: var(--color-primary);
+    background-color: #edf5ee;
+    box-shadow: 0 6px 20px rgba(5, 74, 41, 0.12);
+}
+
+/* 6. АДАПТИВНИЙ ВІДЕОПЛЕЄР (ЕМБЕДДИНГ YOUTUBE 16:9 ЗА ЕТАПОМ 7.1 МЕТОДИЧКИ ЛР №7) */
+.video-responsive {
+    width: 100%;
+    max-width: var(--video-max-width);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--video-radius);
+    box-shadow: var(--video-shadow);
+    border: 1px solid var(--color-border);
+    background-color: #1c1917;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.video-responsive iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+/* 7. АДАПТИВНИЙ КОНТЕЙНЕР ІНТЕРАКТИВНОЇ КАРТИ GOOGLE MAPS (ЕТАП 7.2 МЕТОДИЧКИ ЛР №7) */
+.map-container {
+    position: relative;
+    width: 100%;
+    height: var(--map-height);
+    overflow: hidden;
+    border-radius: var(--map-border-radius);
+    box-shadow: var(--accent-shadow);
+    border: 1px solid var(--color-border);
+    background-color: #f5f3eb;
+}
+
+.map-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+@media (max-width: 640px) {
+    :root {
+        --map-height: 320px;
+    }
+}
+
+/* 8. СЕМАНТИЧНИЙ САЙДБАР ДИНАМІЧНИХ ІНФОРМЕРІВ (<aside> ЗА МЕТОДИЧКОЮ ЛР №7) */
+.informer-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.widget-card {
+    background-color: var(--widget-bg);
+    color: var(--widget-text);
+    border: var(--widget-border);
+    border-radius: var(--widget-radius);
+    padding: 20px;
+    box-shadow: 0 4px 14px rgba(65, 39, 34, 0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.widget-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(5, 74, 41, 0.10);
+}
