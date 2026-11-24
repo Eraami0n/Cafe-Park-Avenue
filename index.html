@@ -91,6 +91,7 @@
                     <li><a href="#promo-video" title="Переглянути відеопрезентацію кондитерської" class="text-base font-semibold text-brand-espresso hover:text-brand-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1">Відео</a></li>
                     <li><a href="#cake-builder" title="Сконструювати власний святковий торт" class="text-base font-bold text-brand-forest hover:text-brand-forest-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1 border-b-2 border-brand-forest">Конструктор торта</a></li>
                     <li><a href="#about" title="Дізнатися більше про кондитерську" class="text-base font-semibold text-brand-espresso hover:text-brand-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1">Про нас</a></li>
+                    <li><a href="#feedback" title="Написати повідомлення або забронювати столик" class="text-base font-semibold text-brand-espresso hover:text-brand-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1">Зворотний зв’язок</a></li>
                     <li><a href="#contacts" title="Переглянути карту проїзду та контакти" class="text-base font-semibold text-brand-espresso hover:text-brand-forest focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest rounded transition-colors py-1">Контакти</a></li>
                 </ul>
 
@@ -1035,7 +1036,205 @@
         </section>
 
         <!-- ========================================================
-             7. СЕКЦІЯ: КОНТАКТИ, ІНТЕРАКТИВНА КАРТА GOOGLE MAPS ТА СЕМАНТИЧНИЙ САЙДБАР ІНФОРМЕРІВ (<aside>)
+             7. СЕКЦІЯ: АДАПТИВНА ФОРМА ЗВОРОТНОГО ЗВ'ЯЗКУ ТА КЛІЄНТСЬКА ВАЛІДАЦІЯ (ЛР №9)
+             - Семантичні елементи <form>, <label for="...">, <input>, <select>, <textarea>, <button>
+             - Mobile-First сітка: grid-cols-1 md:grid-cols-2
+             - 4 UI-стани полів: Normal, Focus, Error (border-red-500), Success (border-green-500)
+             - Доступність (a11y): aria-invalid, aria-describedby, role="alert", focus-visible
+             ======================================================== -->
+        <section id="feedback" class="py-16 md:py-24 bg-brand-warm border-t border-[#e8e0d5]/60" aria-labelledby="feedbackHeading">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <span class="inline-block text-xs uppercase tracking-widest text-brand-forest font-bold bg-brand-sage/20 px-3.5 py-1 rounded-full mb-3">Зворотний зв’язок</span>
+                    <h2 id="feedbackHeading" class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-forest mb-4">Напишіть нам або забронюйте столик</h2>
+                    <p class="text-base sm:text-lg text-brand-espresso-muted leading-relaxed">
+                        Маєте запитання щодо інгредієнтів, бажаєте забронювати столик на веранді чи замовити десерти для події? Заповніть форму — менеджер відповість якнайшвидше.
+                    </p>
+                </div>
+
+                <div class="max-w-3xl mx-auto bg-white p-6 sm:p-10 rounded-3xl border border-[#e8e0d5] shadow-card">
+                    <form id="feedbackForm" action="#" method="post" novalidate class="space-y-6">
+
+                        <!-- Адаптивна сітка: 1 колонка на смартфоні, 2 колонки від md (768px+) -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+
+                            <!-- Поле 1: Ім'я користувача -->
+                            <div>
+                                <label for="username" class="block text-sm font-semibold text-brand-espresso mb-1.5">
+                                    Ваше ім’я <span class="text-red-600" aria-hidden="true">*</span>
+                                </label>
+                                <div class="relative">
+                                    <input
+                                        type="text"
+                                        id="username"
+                                        name="username"
+                                        autocomplete="name"
+                                        required
+                                        aria-required="true"
+                                        aria-invalid="false"
+                                        aria-describedby="nameError"
+                                        placeholder="Наприклад: Ірина"
+                                        class="w-full min-h-[48px] px-4 pr-10 py-3 rounded-xl border border-gray-300 bg-white text-brand-espresso placeholder-stone-400 text-base transition-colors duration-200 hover:border-brand-forest/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest/30 focus:border-brand-forest"
+                                    >
+                                    <span id="usernameStatusIcon" class="pointer-events-none absolute inset-y-0 right-3.5 hidden items-center text-sm font-bold" aria-hidden="true"></span>
+                                </div>
+                                <p id="nameError" class="hidden mt-1.5 text-xs sm:text-sm font-medium text-red-600" role="alert" aria-live="polite"></p>
+                            </div>
+
+                            <!-- Поле 2: Електронна пошта -->
+                            <div>
+                                <label for="email" class="block text-sm font-semibold text-brand-espresso mb-1.5">
+                                    Електронна пошта <span class="text-red-600" aria-hidden="true">*</span>
+                                </label>
+                                <div class="relative">
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        autocomplete="email"
+                                        inputmode="email"
+                                        required
+                                        aria-required="true"
+                                        aria-invalid="false"
+                                        aria-describedby="emailError"
+                                        placeholder="user@gmail.com"
+                                        class="w-full min-h-[48px] px-4 pr-10 py-3 rounded-xl border border-gray-300 bg-white text-brand-espresso placeholder-stone-400 text-base transition-colors duration-200 hover:border-brand-forest/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest/30 focus:border-brand-forest"
+                                    >
+                                    <span id="emailStatusIcon" class="pointer-events-none absolute inset-y-0 right-3.5 hidden items-center text-sm font-bold" aria-hidden="true"></span>
+                                </div>
+                                <p id="emailError" class="hidden mt-1.5 text-xs sm:text-sm font-medium text-red-600" role="alert" aria-live="polite"></p>
+                            </div>
+
+                            <!-- Поле 3: Номер телефону (+380XXXXXXXXX) -->
+                            <div>
+                                <label for="phone" class="block text-sm font-semibold text-brand-espresso mb-1.5">
+                                    Номер телефону <span class="text-red-600" aria-hidden="true">*</span>
+                                </label>
+                                <div class="relative">
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        autocomplete="tel"
+                                        inputmode="tel"
+                                        maxlength="25"
+                                        required
+                                        aria-required="true"
+                                        aria-invalid="false"
+                                        aria-describedby="phoneHint phoneError"
+                                        placeholder="+380501234567"
+                                        class="w-full min-h-[48px] px-4 pr-10 py-3 rounded-xl border border-gray-300 bg-white text-brand-espresso placeholder-stone-400 text-base transition-colors duration-200 hover:border-brand-forest/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest/30 focus:border-brand-forest"
+                                    >
+                                    <span id="phoneStatusIcon" class="pointer-events-none absolute inset-y-0 right-3.5 hidden items-center text-sm font-bold" aria-hidden="true"></span>
+                                </div>
+                                <p id="phoneHint" class="mt-1 text-xs text-brand-espresso-muted">
+                                    Формат без пробілів та дужок: <span class="font-mono font-semibold text-brand-forest">+380XXXXXXXXX</span>
+                                </p>
+                                <!-- Додаткова безпечна UX-підказка для нормалізації номера (Етап 10) -->
+                                <div id="phoneSuggestionWrap" class="hidden mt-1.5">
+                                    <button
+                                        type="button"
+                                        id="phoneSuggestionBtn"
+                                        class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-forest bg-brand-sage/25 hover:bg-brand-sage/40 px-3 py-1 rounded-lg border border-brand-sage transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest"
+                                    ></button>
+                                </div>
+                                <p id="phoneError" class="hidden mt-1.5 text-xs sm:text-sm font-medium text-red-600" role="alert" aria-live="polite"></p>
+                            </div>
+
+                            <!-- Поле 4: Тема звернення (<select>) -->
+                            <div>
+                                <label for="topic" class="block text-sm font-semibold text-brand-espresso mb-1.5">
+                                    Тема звернення
+                                </label>
+                                <select
+                                    id="topic"
+                                    name="topic"
+                                    aria-describedby="topicHint"
+                                    class="w-full min-h-[48px] px-4 py-3 rounded-xl border border-gray-300 bg-white text-brand-espresso text-base transition-colors duration-200 hover:border-brand-forest/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest/30 focus:border-brand-forest"
+                                >
+                                    <option value="table">Бронювання столика або веранди</option>
+                                    <option value="custom-cake">Консультація щодо святкового торта</option>
+                                    <option value="feedback">Відгук або пропозиція</option>
+                                    <option value="catering">Корпоративне замовлення / Кейтеринг</option>
+                                </select>
+                                <p id="topicHint" class="mt-1 text-xs text-brand-espresso-muted">
+                                    Допомагає спрямувати запит потрібному менеджеру
+                                </p>
+                            </div>
+
+                            <!-- Поле 5: Текст повідомлення (на всю ширину у 2-колонковій сітці) -->
+                            <div class="md:col-span-2">
+                                <div class="flex items-center justify-between gap-2 mb-1.5">
+                                    <label for="message" class="block text-sm font-semibold text-brand-espresso">
+                                        Текст повідомлення <span class="text-red-600" aria-hidden="true">*</span>
+                                    </label>
+                                    <span id="messageCounter" class="text-xs font-medium text-brand-espresso-muted" aria-live="polite">0 / 500</span>
+                                </div>
+                                <div class="relative">
+                                    <textarea
+                                        id="message"
+                                        name="message"
+                                        rows="4"
+                                        maxlength="500"
+                                        required
+                                        aria-required="true"
+                                        aria-invalid="false"
+                                        aria-describedby="messageHint messageError"
+                                        placeholder="Напишіть деталі вашого звернення, бажану дату та час візиту або побажання (мінімум 10 символів)..."
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-300 bg-white text-brand-espresso placeholder-stone-400 text-base transition-colors duration-200 hover:border-brand-forest/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest/30 focus:border-brand-forest resize-y"
+                                    ></textarea>
+                                </div>
+                                <p id="messageHint" class="mt-1 text-xs text-brand-espresso-muted">
+                                    Мінімум 10 символів змістовного тексту. HTML-теги не підтримуються.
+                                </p>
+                                <p id="messageError" class="hidden mt-1.5 text-xs sm:text-sm font-medium text-red-600" role="alert" aria-live="polite"></p>
+                            </div>
+
+                            <!-- Поле 6: Чекбокс згоди з політикою конфіденційності -->
+                            <div class="md:col-span-2">
+                                <div id="agreementWrapper" class="rounded-2xl border border-gray-200 bg-brand-hero/80 p-4 transition-colors duration-200">
+                                    <div class="flex items-start gap-3">
+                                        <input
+                                            type="checkbox"
+                                            id="agreement"
+                                            name="agreement"
+                                            required
+                                            aria-required="true"
+                                            aria-invalid="false"
+                                            aria-describedby="agreementError"
+                                            class="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-brand-forest accent-[#054a29] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest focus-visible:ring-offset-2"
+                                        >
+                                        <label for="agreement" class="text-sm text-brand-espresso leading-relaxed cursor-pointer select-none">
+                                            Я погоджуюся з політикою конфіденційності «Cafe Park Avenue» та надаю згоду на обробку персональних даних для зворотного зв’язку <span class="text-red-600" aria-hidden="true">*</span>
+                                        </label>
+                                    </div>
+                                    <p id="agreementError" class="hidden mt-2 text-xs sm:text-sm font-medium text-red-600" role="alert" aria-live="polite"></p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Кнопка надсилання форми (адаптивна висота для touch-екранів >= 48px) -->
+                        <div class="pt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                            <p class="text-xs text-brand-espresso-muted">
+                                Поля, позначені <span class="text-red-600 font-bold">*</span>, є обов’язковими для заповнення.
+                            </p>
+                            <button
+                                type="submit"
+                                id="submitFeedbackBtn"
+                                class="w-full sm:w-auto inline-flex items-center justify-center gap-2 min-h-[50px] px-9 py-3.5 rounded-full bg-brand-forest text-white font-bold text-base shadow-md hover:bg-brand-forest-dark hover:shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest focus-visible:ring-offset-2 active:scale-[0.99] transition-all duration-200"
+                            >
+                                <span>Надіслати повідомлення</span>
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================
+             8. СЕКЦІЯ: КОНТАКТИ, ІНТЕРАКТИВНА КАРТА GOOGLE MAPS ТА СЕМАНТИЧНИЙ САЙДБАР ІНФОРМЕРІВ (<aside>)
              Етап 7.2 та розділ "Інтеграція динамічних інформерів" методички ЛР №7:
              - Семантична ізоляція інтерактивної карти у .map-container (змінні :root)
              - Реальна геолокація Park Avenue: вул. Соборна, 132, м. Монастирище, Черкаська область (48.9956783, 29.8056879)
@@ -1224,6 +1423,7 @@
                         <li><a href="#promo-video" title="Переглянути відеопрезентацію" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Відеопрезентація</a></li>
                         <li><a href="#cake-builder" title="Сконструювати власний торт" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Конструктор торта</a></li>
                         <li><a href="#about" title="Про кондитерську" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Про нас</a></li>
+                        <li><a href="#feedback" title="Форма зворотного зв'язку" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Зворотний зв’язок</a></li>
                         <li><a href="#contacts" title="Карта проїзду та контакти" class="text-[#FAF9F4]/80 hover:text-white transition-colors">Контакти та карта</a></li>
                     </ul>
                 </div>
@@ -1259,7 +1459,7 @@
 
             <!-- Нижня панель копірайту та якір "Догори" -->
             <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#FAF9F4]/70">
-                <p>&copy; 2026 Cafe Park Avenue. Всі права захищено. Лабораторна робота №7 (Проєктування та реалізація повноцінного лендингу).</p>
+                <p>&copy; 2026 Cafe Park Avenue (м. Монастирище, вул. Соборна, 132). Всі права захищено.</p>
                 <a href="#top" title="Повернутися на початок сторінки" class="hover:text-white transition-colors inline-flex items-center gap-1">
                     Догори &uarr;
                 </a>
@@ -1267,5 +1467,58 @@
         </div>
     </footer>
 
+    <!-- ========================================================
+         КАСТОМНЕ ДОСТУПНЕ МОДАЛЬНЕ ВІКНО УСПІШНОЇ ВАЛІДАЦІЇ (ЛР №9, Етапи 11, 12, 19)
+         - Перекриває весь екран (fixed inset-0 z-50 bg-black/60)
+         - Закривається кнопкою, клавішею Escape або кліком по затемненому фону (event.target === successModal)
+         - Підтримує role="dialog", aria-modal="true", утримання клавіатурного фокусу (Focus Trap)
+         ======================================================== -->
+    <div
+        id="successModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+        aria-describedby="modalDesc"
+    >
+        <div
+            id="successModalCard"
+            class="relative w-full max-w-md rounded-3xl bg-white p-6 sm:p-8 shadow-2xl border border-[#e8e0d5] text-center"
+        >
+            <button
+                type="button"
+                id="closeModalIconBtn"
+                aria-label="Закрити модальне вікно"
+                class="absolute top-4 right-4 w-9 h-9 rounded-full inline-flex items-center justify-center text-brand-espresso-muted hover:text-brand-espresso hover:bg-stone-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest transition-colors"
+            >
+                &#10005;
+            </button>
+
+            <div class="w-16 h-16 mx-auto mb-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-3xl font-bold" aria-hidden="true">
+                &#10003;
+            </div>
+
+            <h3 id="modalTitle" class="font-serif text-2xl sm:text-3xl font-bold text-brand-forest mb-2">
+                Дякуємо за звернення!
+            </h3>
+
+            <p id="modalDesc" class="text-sm sm:text-base text-brand-espresso-muted leading-relaxed mb-4">
+                Форма успішно пройшла клієнтську валідацію. Демонстрація успішного надсилання (імітація без підключення бекенд-сервера).
+            </p>
+
+            <div id="modalSummary" class="text-left text-xs sm:text-sm bg-brand-hero border border-[#e8e0d5] rounded-2xl p-4 mb-6 space-y-1 text-brand-espresso"></div>
+
+            <button
+                type="button"
+                id="closeModalBtn"
+                class="w-full inline-flex items-center justify-center min-h-[48px] px-6 py-3 rounded-full bg-brand-forest text-white font-bold text-base shadow-md hover:bg-brand-forest-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest focus-visible:ring-offset-2 transition-all duration-200"
+            >
+                Закрити
+            </button>
+        </div>
+    </div>
+
+    <!-- Підключення скрипту клієнтської валідації та керування UX-станами форми (ЛР №9) -->
+    <script src="assets/js/validation.js" defer></script>
 </body>
 </html>
