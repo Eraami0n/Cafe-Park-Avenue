@@ -4,7 +4,7 @@
 
 ## Демо-посилання (Live Deploy)
 - **GitHub Pages:** https://eraami0n.github.io/Cafe-Park-Avenue/
-- **Netlify:** *(буде додано після публікації)*
+- **Netlify:** https://cafe-parkavenue.netlify.app/
 
 ## Основні можливості
 - Адаптивна Mobile-First верстка (смартфони, планшети, десктоп)
