@@ -656,7 +656,7 @@
                 </div>
 
                 <div class="max-w-4xl mx-auto bg-brand-hero p-6 sm:p-10 rounded-3xl border border-[#e8e0d5] shadow-card">
-                    <form action="#" method="post" class="space-y-10">
+                    <form id="cakeBuilderForm" action="#" method="post" novalidate class="space-y-10">
 
                         <!-- Крок 1: Основа торта -->
                         <fieldset class="border-b border-[#e8e0d5] pb-8">
@@ -880,22 +880,74 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div class="sm:col-span-2">
                                     <label for="cake_text" class="block text-xs font-semibold text-brand-espresso uppercase tracking-wider mb-2">Напис на шоколадній табличці:</label>
-                                    <input type="text" id="cake_text" name="cake_text" placeholder="З днем народження" class="w-full px-4 py-3 rounded-xl border border-[#e8e0d5] bg-white text-brand-espresso focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-brand-forest transition-all">
+                                    <input
+                                        type="text"
+                                        id="cake_text"
+                                        name="cake_text"
+                                        maxlength="80"
+                                        aria-invalid="false"
+                                        aria-describedby="cakeTextError"
+                                        placeholder="З днем народження"
+                                        class="w-full min-h-[48px] px-4 py-3 rounded-xl border border-gray-300 bg-white text-brand-espresso placeholder-stone-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest/30 focus:border-brand-forest transition-colors duration-200"
+                                    >
+                                    <p id="cakeTextError" class="hidden mt-1.5 text-xs sm:text-sm font-medium text-red-600" role="alert" aria-live="polite"></p>
                                 </div>
                                 <div>
-                                    <label for="cust_name" class="block text-xs font-semibold text-brand-espresso uppercase tracking-wider mb-2">Ваше ім'я *:</label>
-                                    <input type="text" id="cust_name" name="cust_name" required placeholder="Ім'я" class="w-full px-4 py-3 rounded-xl border border-[#e8e0d5] bg-white text-brand-espresso focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-brand-forest transition-all">
+                                    <label for="cust_name" class="block text-xs font-semibold text-brand-espresso uppercase tracking-wider mb-2">Ваше ім'я <span class="text-red-600" aria-hidden="true">*</span>:</label>
+                                    <div class="relative">
+                                        <input
+                                            type="text"
+                                            id="cust_name"
+                                            name="cust_name"
+                                            autocomplete="name"
+                                            required
+                                            aria-required="true"
+                                            aria-invalid="false"
+                                            aria-describedby="custNameError"
+                                            placeholder="Ім'я"
+                                            class="w-full min-h-[48px] px-4 pr-10 py-3 rounded-xl border border-gray-300 bg-white text-brand-espresso placeholder-stone-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest/30 focus:border-brand-forest transition-colors duration-200"
+                                        >
+                                        <span id="custNameStatusIcon" class="pointer-events-none absolute inset-y-0 right-3.5 hidden items-center text-sm font-bold" aria-hidden="true"></span>
+                                    </div>
+                                    <p id="custNameError" class="hidden mt-1.5 text-xs sm:text-sm font-medium text-red-600" role="alert" aria-live="polite"></p>
                                 </div>
                                 <div>
-                                    <label for="cust_phone" class="block text-xs font-semibold text-brand-espresso uppercase tracking-wider mb-2">Номер телефону *:</label>
-                                    <input type="tel" id="cust_phone" name="cust_phone" required placeholder="+380 (97) 000-00-00" class="w-full px-4 py-3 rounded-xl border border-[#e8e0d5] bg-white text-brand-espresso focus:outline-none focus:ring-2 focus:ring-brand-forest focus:border-brand-forest transition-all">
+                                    <label for="cust_phone" class="block text-xs font-semibold text-brand-espresso uppercase tracking-wider mb-2">Номер телефону <span class="text-red-600" aria-hidden="true">*</span>:</label>
+                                    <div class="relative">
+                                        <input
+                                            type="tel"
+                                            id="cust_phone"
+                                            name="cust_phone"
+                                            autocomplete="tel"
+                                            inputmode="tel"
+                                            maxlength="25"
+                                            required
+                                            aria-required="true"
+                                            aria-invalid="false"
+                                            aria-describedby="custPhoneHint custPhoneError"
+                                            placeholder="+380XXXXXXXXX"
+                                            class="w-full min-h-[48px] px-4 pr-10 py-3 rounded-xl border border-gray-300 bg-white text-brand-espresso placeholder-stone-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest/30 focus:border-brand-forest transition-colors duration-200"
+                                        >
+                                        <span id="custPhoneStatusIcon" class="pointer-events-none absolute inset-y-0 right-3.5 hidden items-center text-sm font-bold" aria-hidden="true"></span>
+                                    </div>
+                                    <p id="custPhoneHint" class="mt-1 text-xs text-brand-espresso-muted">
+                                        Формат без пробілів та дужок: <span class="font-mono font-semibold text-brand-forest">+380XXXXXXXXX</span>
+                                    </p>
+                                    <div id="custPhoneSuggestionWrap" class="hidden mt-1.5">
+                                        <button
+                                            type="button"
+                                            id="custPhoneSuggestionBtn"
+                                            class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-forest bg-brand-sage/25 hover:bg-brand-sage/40 px-3 py-1 rounded-lg border border-brand-sage transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest"
+                                        ></button>
+                                    </div>
+                                    <p id="custPhoneError" class="hidden mt-1.5 text-xs sm:text-sm font-medium text-red-600" role="alert" aria-live="polite"></p>
                                 </div>
                             </div>
                         </fieldset>
 
                         <!-- Кнопка надсилання форми -->
                         <div class="text-center pt-6">
-                            <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center min-h-[50px] px-10 py-4 rounded-full bg-brand-forest text-white font-bold text-base shadow-lg hover:bg-brand-forest-dark hover:shadow-xl active:scale-98 transition-all duration-200">
+                            <button type="submit" id="submitCakeBtn" class="w-full sm:w-auto inline-flex items-center justify-center min-h-[50px] px-10 py-4 rounded-full bg-brand-forest text-white font-bold text-base shadow-lg hover:bg-brand-forest-dark hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-forest focus-visible:ring-offset-2 active:scale-98 transition-all duration-200">
                                 Оформити індивідуальне замовлення
                             </button>
                             <p class="text-xs text-brand-espresso-muted mt-3">Менеджер кондитерської зателефонує вам протягом 15 хвилин для уточнення всіх деталей</p>
@@ -1446,10 +1498,11 @@
                     <p class="text-xs text-[#FAF9F4]/80 mb-4 leading-relaxed">
                         Підпишіться на щотижневі спеціальні пропозиції та сезонні новинки кондитерської:
                     </p>
-                    <form action="#" method="post" class="space-y-2">
+                    <form id="newsletterForm" action="#" method="post" novalidate class="space-y-2">
                         <label for="newsletter-email" class="sr-only">Ваш Email</label>
-                        <input type="email" id="newsletter-email" name="email" required placeholder="Ваш Email" class="w-full px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-brand-sage focus:border-brand-sage transition-all">
-                        <button type="submit" class="w-full min-h-[40px] px-4 py-2 rounded-xl bg-brand-sage text-brand-forest font-bold text-sm hover:bg-brand-sage-light transition-colors">
+                        <input type="email" id="newsletter-email" name="email" required aria-invalid="false" aria-describedby="newsletterError" placeholder="Ваш Email" class="w-full px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/50 text-sm focus:outline-none focus:ring-2 focus:ring-brand-sage focus:border-brand-sage transition-all">
+                        <p id="newsletterError" class="hidden text-xs font-medium text-red-300" role="alert" aria-live="polite"></p>
+                        <button type="submit" id="submitNewsletterBtn" class="w-full min-h-[40px] px-4 py-2 rounded-xl bg-brand-sage text-brand-forest font-bold text-sm hover:bg-brand-sage-light transition-colors">
                             Підписатися
                         </button>
                     </form>
